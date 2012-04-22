@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">EC Information Grabber</string>
+    <string name="error_nfc_not_avail">NFC nicht verfügbar!</string>
+    <string name="ui_nfcid">NFC ID</string>
+    <string name="ui_blz">BLZ</string>
+    <string name="ui_konto">Konto</string>
+    <string name="ui_betrag">Betrag</string>
+    <string name="error_nfc_comm">Fehler bei NFC-Kommunikation!</string>
+    <string name="error_nfc_comm_cont">Fehler beim kommunizieren mit NFC-Tag: </string>
+
+</resources>
