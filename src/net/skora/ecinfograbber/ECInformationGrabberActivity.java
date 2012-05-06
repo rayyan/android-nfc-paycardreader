@@ -1,6 +1,7 @@
 package net.skora.ecinfograbber;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -67,6 +68,12 @@ public class ECInformationGrabberActivity extends Activity {
 		konto.setText("-");
 		TextView betrag = (TextView) findViewById(R.id.display_betrag);
 		betrag.setText("-");
+		TextView kartennr = (TextView) findViewById(R.id.display_kartennr);
+		kartennr.setText("-");
+		TextView aktiviert = (TextView) findViewById(R.id.display_aktiviert);
+		aktiviert.setText("-");
+		TextView verfall = (TextView) findViewById(R.id.display_verfall);
+		verfall.setText("-");
 		
 		byte[] id = tag.getId();
 		nfcid.setText(Byte2Hex(id));
@@ -82,8 +89,45 @@ public class ECInformationGrabberActivity extends Activity {
 		}
 		
 		try {
+			// Switch to DF_BOERSE
 			byte[] recv = transceive("00 A4 04 0C 09 D2 76 00 00 25 45 50 02 00");
-			recv = transceive("00 B2 01 C4 09");
+			// Read EF_BETRAG
+			recv = transceive("00 B2 01 C4 00");
+			StringBuilder res = new StringBuilder(); 
+			if (recv[0] != 0) res.append(Integer.toHexString(recv[0]));
+			if (recv[1] == 0) {
+				if (res.length() > 0) {
+					res.append("00");
+				} else {
+					res.append("0");
+				}
+			} else {
+				if (res.length() > 0 && recv[1] <= 9) {
+					res.append("0");
+				}
+				res.append(Integer.toHexString(recv[1]));
+			}
+			res.append(",");
+			res.append(Integer.toHexString(recv[2]));
+			res.append("€");
+			betrag.setText(res.toString());
+			
+			// Read EF_ID
+			recv = transceive("00 B2 01 BC 00");
+			// Kartennr.
+			kartennr.setText(Byte2Hex(Arrays.copyOfRange(recv, 4, 9)).replace(" ", ""));
+			//Aktiviert am
+			aktiviert.setText(Byte2Hex(Arrays.copyOfRange(recv, 14, 15)).replace(" ", "") + "." + Byte2Hex(Arrays.copyOfRange(recv, 13, 14)).replace(" ", "") + ".20" + Byte2Hex(Arrays.copyOfRange(recv, 12, 13)).replace(" ", ""));
+			//Verfällt am
+			verfall.setText(Byte2Hex(Arrays.copyOfRange(recv, 11, 12)).replace(" ", "") + "/" + Byte2Hex(Arrays.copyOfRange(recv, 10, 11)).replace(" ", ""));
+			
+			// EF_BÖRSE
+			recv = transceive("00 B2 01 CC 00");
+			// BLZ
+			blz.setText(Byte2Hex(Arrays.copyOfRange(recv, 1, 5)).replace(" ", ""));
+			// Kontonr.
+			konto.setText(Byte2Hex(Arrays.copyOfRange(recv, 5, 10)).replace(" ", ""));
+			
 			tagcomm.close();
 		} catch (IOException e) {
 			toastError(getResources().getText(R.string.error_nfc_comm_cont) + (e.getMessage() != null ? e.getMessage() : "-"));

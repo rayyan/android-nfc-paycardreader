@@ -18,7 +18,7 @@
                 android:id="@+id/ui_nfcid"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingRight="10px"
+                android:paddingRight="10dp"
                 android:text="@string/ui_nfcid"
                 android:textAppearance="?android:attr/textAppearanceLarge" />
 
@@ -38,7 +38,7 @@
                 android:id="@+id/ui_blz"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingRight="10px"
+                android:paddingRight="10dp"
                 android:text="@string/ui_blz"
                 android:textAppearance="?android:attr/textAppearanceLarge" />
 
@@ -58,7 +58,7 @@
                 android:id="@+id/ui_konto"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingRight="10px"
+                android:paddingRight="10dp"
                 android:text="@string/ui_konto"
                 android:textAppearance="?android:attr/textAppearanceLarge" />
 
@@ -78,12 +78,72 @@
                 android:id="@+id/ui_betrag"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingRight="10px"
+                android:paddingRight="10dp"
                 android:text="@string/ui_betrag"
                 android:textAppearance="?android:attr/textAppearanceLarge" />
 
             <TextView
                 android:id="@+id/display_betrag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/tableRow5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/ui_kartennr"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingRight="10dp"
+                android:text="@string/ui_kartennr"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
+
+            <TextView
+                android:id="@+id/display_kartennr"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/tableRow6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/ui_aktiviert"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingRight="10dp"
+                android:text="@string/ui_aktiviert"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
+
+            <TextView
+                android:id="@+id/display_aktiviert"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="" />
+        </TableRow>
+        
+        <TableRow
+            android:id="@+id/tableRow7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/ui_verfall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingRight="10dp"
+                android:text="@string/ui_verfall"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
+
+            <TextView
+                android:id="@+id/display_verfall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="" />
