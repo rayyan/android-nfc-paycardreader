@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">EC Information Grabber</string>
+    <string name="app_name">EC-Karten Infos</string>
     <string name="error_nfc_not_avail">NFC nicht verfügbar!</string>
     <string name="ui_nfcid">NFC ID</string>
     <string name="ui_blz">BLZ</string>
@@ -11,5 +11,11 @@
     <string name="ui_kartennr">Kartennr.</string>
     <string name="ui_aktiviert">Aktiviert</string>
     <string name="ui_verfall">Verfall</string>
+    <string name="ui_head_card">- Karte -</string>
+    <string name="ui_head_gkacc">- Verrechnungskonto -</string>
+    <string name="ui_head_aid">- Features -</string>
+    <string name="ui_pse">PSE</string>
+    <string name="text_yes">Ja</string>
+    <string name="text_no">Nein</string>
 
 </resources>

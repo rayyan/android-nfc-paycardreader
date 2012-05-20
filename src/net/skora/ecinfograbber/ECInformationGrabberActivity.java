@@ -15,6 +15,9 @@ import android.nfc.tech.IsoDep;
 import android.nfc.tech.NfcA;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.TableLayout;
+import android.widget.TableRow;
+import android.widget.TableRow.LayoutParams;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -74,6 +77,8 @@ public class ECInformationGrabberActivity extends Activity {
 		aktiviert.setText("-");
 		TextView verfall = (TextView) findViewById(R.id.display_verfall);
 		verfall.setText("-");
+		TableLayout aidtable = (TableLayout) findViewById(R.id.table_features);
+		aidtable.removeAllViews();
 		
 		byte[] id = tag.getId();
 		nfcid.setText(Byte2Hex(id));
@@ -108,7 +113,9 @@ public class ECInformationGrabberActivity extends Activity {
 				res.append(Integer.toHexString(recv[1]));
 			}
 			res.append(",");
-			res.append(Integer.toHexString(recv[2]));
+			String cents = Integer.toHexString(recv[2]);
+			if (cents.length() == 1) res.append("0");
+			res.append(cents);
 			res.append("€");
 			betrag.setText(res.toString());
 			
@@ -127,6 +134,16 @@ public class ECInformationGrabberActivity extends Activity {
 			blz.setText(Byte2Hex(Arrays.copyOfRange(recv, 1, 5)).replace(" ", ""));
 			// Kontonr.
 			konto.setText(Byte2Hex(Arrays.copyOfRange(recv, 5, 10)).replace(" ", ""));
+			
+			recv = transceive("00 A4 04 00 0E 31 50 41 59 2E 53 59 53 2E 44 44 46 30 31 00");
+			int len = recv.length;
+			if (len >= 2 && recv[len - 2] == 0x90 && recv[len - 1] == 0) {
+				// PSE supported
+				addAIDRow(getResources().getText(R.string.ui_pse), getResources().getText(R.string.text_yes));
+			} else {
+				// no PSE
+				addAIDRow(getResources().getText(R.string.ui_pse), getResources().getText(R.string.text_no));
+			}
 			
 			tagcomm.close();
 		} catch (IOException e) {
@@ -169,6 +186,26 @@ public class ECInformationGrabberActivity extends Activity {
 		
 		return dialog;
 	}
+    
+    private void addAIDRow(CharSequence left, CharSequence right) {
+		TextView t1 = new TextView(this);
+		t1.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+		t1.setPadding(0, 0, (int) (getResources().getDisplayMetrics().density * 10 + 0.5f), 0);
+		t1.setTextAppearance(this, android.R.attr.textAppearanceMedium);
+		t1.setText(left);
+		
+		TextView t2 = new TextView(this);
+		t2.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+		t2.setText(right);
+		
+    	TableRow tr = new TableRow(this);
+		tr.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+		tr.addView(t1);
+		tr.addView(t2);
+
+		TableLayout t = (TableLayout) findViewById(R.id.table_features);
+		t.addView(tr, new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+    }
 
 	protected void log(String msg) {
 		Log.d(LOGTAG, msg);
