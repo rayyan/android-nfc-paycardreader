@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">EC-Karten Infos</string>
+    <string name="app_name">EC Karten Infos</string>
     <string name="error_nfc_not_avail">NFC nicht verfügbar!</string>
     <string name="ui_nfcid">NFC ID</string>
     <string name="ui_blz">BLZ</string>
@@ -17,5 +17,8 @@
     <string name="ui_pse">PSE</string>
     <string name="text_yes">Ja</string>
     <string name="text_no">Nein</string>
+    <string name="ui_head_kk">- Kreditkarte -</string>
+    <string name="ui_kk">Kreditk.-Nummer</string>
+    <string name="ui_cardtype">Typ</string>
 
 </resources>
