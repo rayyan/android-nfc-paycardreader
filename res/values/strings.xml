@@ -6,7 +6,7 @@
     <string name="ui_blz">BLZ</string>
     <string name="ui_konto">Konto</string>
     <string name="ui_betrag">Betrag</string>
-    <string name="error_nfc_comm">Fehler bei NFC-Kommunikation!</string>
+    <string name="error_nfc_comm">Fehler bei NFC-Kommunikation - falscher Kartentyp!</string>
     <string name="error_nfc_comm_cont">Fehler beim kommunizieren mit NFC-Tag: </string>
     <string name="ui_kartennr">Kartennr.</string>
     <string name="ui_aktiviert">Aktiviert</string>
