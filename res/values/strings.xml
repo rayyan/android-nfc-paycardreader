@@ -21,5 +21,8 @@
     <string name="ui_kk">Kreditk.-Nummer</string>
     <string name="ui_cardtype">Typ</string>
     <string name="error_card_unknown">Kartentyp unbekannt!</string>
+    <string name="ui_transaktionen">Transaktionen</string>
+    <string name="activity_transactions">Transaktionen</string>
+    <string name="ui_notransactions">Keine Transaktionen gefunden!</string>
 
 </resources>

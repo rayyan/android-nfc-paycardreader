@@ -30,6 +30,8 @@ import android.nfc.tech.IsoDep;
 import android.nfc.tech.NfcA;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TableRow.LayoutParams;
@@ -58,6 +60,7 @@ public class ECCardInfosActivity extends Activity {
 	private TextView aktiviert;
 	private TextView verfall;
 	private TableLayout aidtable;
+	private Button transactions;
 	
     /** Called when the activity is first created. */
     @Override
@@ -75,6 +78,9 @@ public class ECCardInfosActivity extends Activity {
 		aktiviert = (TextView) findViewById(R.id.display_aktiviert);
 		verfall = (TextView) findViewById(R.id.display_verfall);
 		aidtable = (TableLayout) findViewById(R.id.table_features);
+		transactions = (Button) findViewById(R.id.button_transactions);
+		
+		transactions.setOnClickListener(transactions_click);
         
         nfc = NfcAdapter.getDefaultAdapter(this);
         if (nfc == null) {
@@ -110,9 +116,10 @@ public class ECCardInfosActivity extends Activity {
 		aktiviert.setText("-");
 		verfall.setText("-");
 		aidtable.removeAllViews();
+		transactions.setVisibility(View.GONE);
 		
 		byte[] id = tag.getId();
-		nfcid.setText(Byte2Hex(id));
+		nfcid.setText(SharedUtils.Byte2Hex(id));
 		
 		tagcomm = IsoDep.get(tag);
 		if (tagcomm == null) {
@@ -171,56 +178,39 @@ public class ECCardInfosActivity extends Activity {
 	
 	private void readGeldKarte() {
 		try  {
-		// Read EF_BETRAG
-		byte[] recv = transceive("00 B2 01 C4 00");
-		StringBuilder res = new StringBuilder(); 
-		if (recv[0] != 0) res.append(Integer.toHexString(recv[0]));
-		if (recv[1] == 0) {
-			if (res.length() > 0) {
-				res.append("00");
-			} else {
-				res.append("0");
-			}
-		} else {
-			if (res.length() > 0 && recv[1] <= 9) {
-				res.append("0");
-			}
-			res.append(Integer.toHexString(recv[1]));
-		}
-		res.append(",");
-		String cents = Integer.toHexString(recv[2]);
-		if (cents.length() == 1) res.append("0");
-		res.append(cents);
-		res.append("€");
-		betrag.setText(res.toString());
-		
-		// Read EF_ID
-		recv = transceive("00 B2 01 BC 00");
-		// Kartennr.
-		kartennr.setText(Byte2Hex(Arrays.copyOfRange(recv, 4, 9)).replace(" ", ""));
-		//Aktiviert am
-		aktiviert.setText(Byte2Hex(Arrays.copyOfRange(recv, 14, 15)).replace(" ", "") + "." + Byte2Hex(Arrays.copyOfRange(recv, 13, 14)).replace(" ", "") + ".20" + Byte2Hex(Arrays.copyOfRange(recv, 12, 13)).replace(" ", ""));
-		//Verfällt am
-		verfall.setText(Byte2Hex(Arrays.copyOfRange(recv, 11, 12)).replace(" ", "") + "/" + Byte2Hex(Arrays.copyOfRange(recv, 10, 11)).replace(" ", ""));
-		
-		// EF_BÖRSE
-		recv = transceive("00 B2 01 CC 00");
-		// BLZ
-		blz.setText(Byte2Hex(Arrays.copyOfRange(recv, 1, 5)).replace(" ", ""));
-		// Kontonr.
-		konto.setText(Byte2Hex(Arrays.copyOfRange(recv, 5, 10)).replace(" ", ""));
-		
-//		recv = transceive("00 A4 04 00 0E 31 50 41 59 2E 53 59 53 2E 44 44 46 30 31 00");
-//		int len = recv.length;
-//		if (len >= 2 && recv[len - 2] == 0x90 && recv[len - 1] == 0) {
-//			// PSE supported
-//			addAIDRow(getResources().getText(R.string.ui_pse), getResources().getText(R.string.text_yes));
-//		} else {
-//			// no PSE
-//			addAIDRow(getResources().getText(R.string.ui_pse), getResources().getText(R.string.text_no));
-//		}
-//		recv = transceive("00 A4 04 0C 07 F0 00 00 01 57 10 21");	// Lastschrift AID
-//		recv = transceive("00 A4 04 0C 0A A0 00 00 03 59 10 10 02 80 01");	// EC AID
+			// Read EF_BETRAG
+			byte[] recv = transceive("00 B2 01 C4 00");
+			betrag.setText(SharedUtils.formatBCDAmount(recv));
+
+			// Read EF_ID
+			recv = transceive("00 B2 01 BC 00");
+			// Kartennr.
+			kartennr.setText(SharedUtils.Byte2Hex(Arrays.copyOfRange(recv, 4, 9)).replace(" ", ""));
+			//Aktiviert am
+			aktiviert.setText(SharedUtils.Byte2Hex(Arrays.copyOfRange(recv, 14, 15)).replace(" ", "") + "." + SharedUtils.Byte2Hex(Arrays.copyOfRange(recv, 13, 14)).replace(" ", "") + ".20" + SharedUtils.Byte2Hex(Arrays.copyOfRange(recv, 12, 13)).replace(" ", ""));
+			//Verfällt am
+			verfall.setText(SharedUtils.Byte2Hex(Arrays.copyOfRange(recv, 11, 12)).replace(" ", "") + "/" + SharedUtils.Byte2Hex(Arrays.copyOfRange(recv, 10, 11)).replace(" ", ""));
+
+			// EF_BÖRSE
+			recv = transceive("00 B2 01 CC 00");
+			// BLZ
+			blz.setText(SharedUtils.Byte2Hex(Arrays.copyOfRange(recv, 1, 5)).replace(" ", ""));
+			// Kontonr.
+			konto.setText(SharedUtils.Byte2Hex(Arrays.copyOfRange(recv, 5, 10)).replace(" ", ""));
+
+			transactions.setVisibility(View.VISIBLE);
+
+			//		recv = transceive("00 A4 04 00 0E 31 50 41 59 2E 53 59 53 2E 44 44 46 30 31 00");
+			//		int len = recv.length;
+			//		if (len >= 2 && recv[len - 2] == 0x90 && recv[len - 1] == 0) {
+			//			// PSE supported
+			//			addAIDRow(getResources().getText(R.string.ui_pse), getResources().getText(R.string.text_yes));
+			//		} else {
+			//			// no PSE
+			//			addAIDRow(getResources().getText(R.string.ui_pse), getResources().getText(R.string.text_no));
+			//		}
+			//		recv = transceive("00 A4 04 0C 07 F0 00 00 01 57 10 21");	// Lastschrift AID
+			//		recv = transceive("00 A4 04 0C 0A A0 00 00 03 59 10 10 02 80 01");	// EC AID
 		} catch (IOException e) {
 			toastError(getResources().getText(R.string.error_nfc_comm_cont) + (e.getMessage() != null ? e.getMessage() : "-"));			
 		}
@@ -246,9 +236,9 @@ public class ECCardInfosActivity extends Activity {
 		for (int i = 0; i < hexbytes.length; i++) {
 			bytes[i] = (byte) Integer.parseInt(hexbytes[i], 16);
 		}
-		log("Send: " + Byte2Hex(bytes));
+		log("Send: " + SharedUtils.Byte2Hex(bytes));
 		byte[] recv = tagcomm.transceive(bytes);
-		log("Received: " + Byte2Hex(recv));
+		log("Received: " + SharedUtils.Byte2Hex(recv));
 		return recv;
 	}
     
@@ -276,6 +266,25 @@ public class ECCardInfosActivity extends Activity {
 		return dialog;
 	}
     
+    private View.OnClickListener transactions_click = new View.OnClickListener() {
+
+		@Override
+		public void onClick(View v) {
+			Intent intent = new Intent(ECCardInfosActivity.this, TransactionsActivity.class);
+			try  {
+				// Read all EF_BLOG records
+				for (int i = 1; i <= 15; i++) {
+					byte[] recv = transceive(String.format("00 B2 %02x EC 00", i));
+					intent.putExtra(String.format("blog_%d", i), recv);
+				}
+				startActivity(intent);
+			} catch (IOException e) {
+				toastError(getResources().getText(R.string.error_nfc_comm_cont) + (e.getMessage() != null ? e.getMessage() : "-"));
+			}
+		}
+    	
+    };
+    
     private void addAIDRow(CharSequence left, CharSequence right) {
 		TextView t1 = new TextView(this);
 		t1.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
@@ -302,14 +311,5 @@ public class ECCardInfosActivity extends Activity {
 	
 	protected void toastError(CharSequence msg) {
 		Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
-	}
-	
-	private String Byte2Hex(byte[] input) {
-		StringBuilder result = new StringBuilder();
-		
-		for (Byte inputbyte : input) {
-			result.append(String.format("%02X ", inputbyte));
-		}
-		return result.toString();
 	}
 }

@@ -5,19 +5,19 @@
     android:orientation="vertical" >
 
     <TextView
-        android:id="@+id/textView1"
+        android:id="@+id/textView_card"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/ui_head_card"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <TableLayout
-        android:id="@+id/tableLayout1"
+        android:id="@+id/tableLayout_card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
             
         <TableRow
-            android:id="@+id/tableRow1"
+            android:id="@+id/tableRow_nfcid"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" >
 
@@ -37,7 +37,7 @@
         </TableRow>
 
         <TableRow
-            android:id="@+id/tableRow9"
+            android:id="@+id/tableRow_typ"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" >
 
@@ -58,7 +58,7 @@
         </TableRow>
 
         <TableRow
-            android:id="@+id/tableRow4"
+            android:id="@+id/tableRow_amount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" >
 
@@ -78,7 +78,7 @@
         </TableRow>
 
         <TableRow
-            android:id="@+id/tableRow5"
+            android:id="@+id/tableRow_cardnr"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" >
 
@@ -98,7 +98,7 @@
         </TableRow>
 
         <TableRow
-            android:id="@+id/tableRow6"
+            android:id="@+id/tableRow_activation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" >
 
@@ -118,7 +118,7 @@
         </TableRow>
 
         <TableRow
-            android:id="@+id/tableRow7"
+            android:id="@+id/tableRow_expiration"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" >
 
@@ -140,19 +140,19 @@
     </TableLayout>
     
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/textView_account"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/ui_head_gkacc"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <TableLayout
-        android:id="@+id/tableLayout2"
+        android:id="@+id/tableLayout_account"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
 
         <TableRow
-            android:id="@+id/tableRow2"
+            android:id="@+id/tableRow_blz"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" >
 
@@ -171,7 +171,7 @@
         </TableRow>
 
         <TableRow
-            android:id="@+id/tableRow3"
+            android:id="@+id/tableRow_accountnr"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" >
 
@@ -192,19 +192,19 @@
     </TableLayout>
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/textView_creditcard"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/ui_head_kk"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <TableLayout
-        android:id="@+id/tableLayout3"
+        android:id="@+id/tableLayout_creditcard"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
 
         <TableRow
-            android:id="@+id/tableRow8"
+            android:id="@+id/tableRow_ccnr"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" >
 
@@ -230,7 +230,7 @@
     </TableLayout>
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/textView_features"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/ui_head_aid"
@@ -241,5 +241,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
     </TableLayout>
+
+    <Button
+        android:id="@+id/button_transactions"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/ui_transaktionen"
+        android:visibility="gone" />
 
 </LinearLayout>

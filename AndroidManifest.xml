@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="net.skora.eccardinfos"
-    android:versionCode="4"
-    android:versionName="0.2.1" >
+    android:versionCode="5"
+    android:versionName="0.3" >
 
     <uses-sdk android:minSdkVersion="10" />
     <uses-permission android:name="android.permission.NFC"/>
@@ -20,5 +20,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name="TransactionsActivity" android:label="@string/activity_transactions" android:finishOnTaskLaunch="true" android:clearTaskOnLaunch="true"></activity>
     </application>
 </manifest>
