@@ -85,6 +85,7 @@ public class ECCardInfosActivity extends Activity {
         nfc = NfcAdapter.getDefaultAdapter(this);
         if (nfc == null) {
         	showDialog(DIALOG_NFC_NOT_AVAIL);
+        	return;
         }
         nfcintent = PendingIntent.getActivity(this, 0, new Intent(this, getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
     }
@@ -92,13 +93,17 @@ public class ECCardInfosActivity extends Activity {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		nfc.enableForegroundDispatch(this, nfcintent, null, nfctechfilter);
+		if(nfc != null){
+			nfc.enableForegroundDispatch(this, nfcintent, null, nfctechfilter);
+		}
 	}
 
 	@Override
 	protected void onPause() {
 		super.onPause();
-		nfc.disableForegroundDispatch(this);
+		if(nfc != null){
+			nfc.disableForegroundDispatch(this);
+		}
 	}
 	
 	protected void onNewIntent(Intent intent) {
